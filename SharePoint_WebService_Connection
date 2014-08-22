@@ -1,0 +1,20 @@
+<script>
+var app= angular.module('app', ['ngAnimate', 'ngSanitize']);
+    app.controller('spController', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
+        var lastWeek = $filter('date')(new Date(), 'yyyy-MM-ddT00:00:00');
+ 
+        $scope.currentDate = lastWeek;//new Date();
+        var yemekListesiUrl = "/_vti_bin/listdata.svc/yemekListesi$filter=LunchDate eq datetime'" + lastWeek + "'";
+ 
+        $http({
+            method: 'GET',
+            url: yemekListesiUrl,
+            headers: { "Accept": "application/json;odata=verbose" }
+        }).success(function (d, s, h, c) {
+            $scope.lunches = d.d.results;
+        });
+ 
+ 
+    }]);
+ 
+</script>
